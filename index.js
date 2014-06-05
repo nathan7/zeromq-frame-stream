@@ -8,14 +8,16 @@ var DeFramer = require('binary-parse-stream').extend(require('zeromq-frame-parse
 
 module.exports = exports = Magic
 inherits(Magic, DuplexStream)
-function Magic(stream, opts) {
+function Magic(stream, opts) { var self = this
   if (!this || this === global) return new Magic(stream, opts)
 
   var myOpts = Object.create(opts || {})
   myOpts.objectMode = true
   DuplexStream.call(this, myOpts)
 
-  ;(this._stream = stream).pipe(this._parser = new DeFramer(opts))
+  ;(this._stream = stream)
+    .pipe(this._parser = new DeFramer(opts))
+    .on('error', function(err) { self.emit('error', err) })
 }
 
 Magic.prototype._write = function(messages, _, cb) { var self = this
