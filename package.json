@@ -1,0 +1,30 @@
+{
+  "name": "zeromq-frame-stream",
+  "version": "1.0.0",
+  "description": "Encode and decode streams of ZMTP (ZeroMQ Message Transport Protocol) frames.",
+  "main": "index.js",
+  "dependencies": {
+    "binary-parse-stream": "^1.3.0",
+    "zeromq-frame-parser": "^1.1.2",
+    "zeromq-frame-writer": "^2.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nathan7/zeromq-frame-stream.git"
+  },
+  "keywords": [
+    "zeromq",
+    "message",
+    "transport",
+    "protocol",
+    "zmtp",
+    "stream"
+  ],
+  "author": "Nathan Zadoks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nathan7/zeromq-frame-stream/issues"
+  },
+  "homepage": "https://github.com/nathan7/zeromq-frame-stream"
+}
