@@ -1,6 +1,6 @@
 {
   "name": "zeromq-frame-stream",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Encode and decode streams of ZMTP (ZeroMQ Message Transport Protocol) frames.",
   "main": "index.js",
   "dependencies": {
