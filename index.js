@@ -4,32 +4,19 @@ var DeFramer = require('binary-parse-stream').extend(require('zeromq-frame-parse
   , inherits = require('util').inherits
   , Stream = require('stream')
   , TransformStream = Stream.Transform
-  , DuplexStream = Stream.Transform
+  , DuplexCombo = require('duplex-combination')
 
-module.exports = exports = Magic
-inherits(Magic, DuplexStream)
-function Magic(stream, opts) { var self = this
-  if (!this || this === global) return new Magic(stream, opts)
+module.exports = exports = ZmtpFrameDuplex
+inherits(ZmtpFrameDuplex, DuplexCombo)
+function ZmtpFrameDuplex(stream, opts) {
+  if (!(this instanceof ZmtpFrameDuplex)) return new ZmtpFrameDuplex(stream, opts)
 
-  var myOpts = Object.create(opts || {})
-  myOpts.objectMode = true
-  DuplexStream.call(this, myOpts)
+  var decode = new DeFramer()
+    , encode = new Framer()
 
-  ;(this._stream = stream)
-    .pipe(this._parser = new DeFramer(opts))
-    .on('error', function(err) { self.emit('error', err) })
-}
+  encode.pipe(stream).pipe(decode)
 
-Magic.prototype._write = function(messages, _, cb) { var self = this
-  writer(messages, function(frame, cb) {
-    self._stream.write(frame, cb)
-  }, cb)
-}
-
-Magic.prototype._read = function() { var self = this
-  this._parser.once('readable', function() {
-    self.push(this.read())
-  })
+  DuplexCombo.call(this, decode, encode, opts)
 }
 
 exports.Framer = Framer
