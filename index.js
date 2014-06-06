@@ -1,5 +1,5 @@
 'use strict';
-var DeFramer = require('binary-parse-stream').extend(require('zeromq-frame-parser/parser'))
+var BinaryParseStream = require('binary-parse-stream')
   , writer = require('zeromq-frame-writer')
   , inherits = require('util').inherits
   , Stream = require('stream')
@@ -34,3 +34,12 @@ Framer.prototype._transform = function(messages, _, cb) { var self = this
     if (cb) cb()
   }, cb)
 }
+
+exports.DeFramer = DeFramer
+inherits(DeFramer, BinaryParseStream)
+function DeFramer(opts) {
+  if (!(this instanceof DeFramer)) return new DeFramer(opts)
+  BinaryParseStream.call(this, opts)
+}
+
+DeFramer.prototype._parse = require('zeromq-frame-parser/parser')
