@@ -11,12 +11,12 @@ inherits(ZmtpFrameDuplex, DuplexCombo)
 function ZmtpFrameDuplex(stream, opts) {
   if (!(this instanceof ZmtpFrameDuplex)) return new ZmtpFrameDuplex(stream, opts)
 
-  var decode = new DeFramer()
-    , encode = new Framer()
+  var encode = new Framer()
+    , decode = new DeFramer()
 
   encode.pipe(stream).pipe(decode)
 
-  DuplexCombo.call(this, decode, encode, opts)
+  DuplexCombo.call(this, encode, decode, opts)
 }
 
 exports.Framer = Framer
